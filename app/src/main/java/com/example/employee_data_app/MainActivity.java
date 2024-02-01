@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
     Button resendCode;
 
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,16 +84,30 @@ public class MainActivity extends AppCompatActivity {
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
-                phone.setText(documentSnapshot.getString("phone"));
-                fullName.setText(documentSnapshot.getString("fName"));
-                email.setText(documentSnapshot.getString("email"));
+                if (error != null) {
+                    Log.e(TAG, "Listen failed: ", error);
+                    return;
+                }
+
+                if (documentSnapshot != null && documentSnapshot.exists()) {
+                    // Document exists, proceed with accessing its data
+                    phone.setText(documentSnapshot.getString("phone"));
+                    fullName.setText(documentSnapshot.getString("fName"));
+                    email.setText(documentSnapshot.getString("email"));
+                } else {
+                    // Document does not exist or is null
+                    Log.d(TAG, "Current data: null");
+                    // You can handle this case based on your app's logic
+                }
             }
         });
+
 
     }
 
     public void logout(View view) {
         FirebaseAuth.getInstance().signOut();
+
         startActivity(new Intent(getApplicationContext(),Login.class));
         finish();
     }
