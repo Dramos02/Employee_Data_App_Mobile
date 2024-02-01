@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +22,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Login extends AppCompatActivity {
 
@@ -28,6 +32,7 @@ public class Login extends AppCompatActivity {
     Button mLoginBtn;
     TextView mCreateBtn,forgetTextLink;
     FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
     ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +49,7 @@ public class Login extends AppCompatActivity {
         forgetTextLink = findViewById(R.id.forgotPassword);
 
         fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
 
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +78,8 @@ public class Login extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(Login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                            checkUserAccessLevel(fAuth.getCurrentUser().getUid());
+                            //startActivity(new Intent(getApplicationContext(),MainActivity.class));
                             mEmail.setText("");
                             mPassword.setText("");
                         }else {
@@ -128,6 +135,25 @@ public class Login extends AppCompatActivity {
                 });
 
                 passwordResetDialog.create().show();
+            }
+        });
+    }
+
+    private void checkUserAccessLevel(String uid) {
+        DocumentReference df = fStore.collection("users").document(uid);
+        df.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Log.d("TAG", "onSucess:" + documentSnapshot.getData());
+
+                if(documentSnapshot.getString("isAdmin") != null){
+                    startActivity(new Intent(getApplicationContext(),AdminActivity.class));
+                    finish();
+                }
+
+                if(documentSnapshot.getString("isUser") != null){
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                }
             }
         });
     }
