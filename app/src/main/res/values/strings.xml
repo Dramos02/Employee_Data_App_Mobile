@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Employee_Data_App</string>
+    <string name="copyrights">Copyrights by @github/Dramos02 - Dominic Ramos</string>
+    <string name="addRecTitle">Pokemon Data</string>
+    <string name="empName">Name</string>
+    <string name="empEmail">user@email.com</string>
+    <string name="empPNum">09XXXXXXX</string>
+    <string name="btnSaveRec">Save</string>
+    <string name="btnCancelRect">Cancel</string>
+    <string name="btnEdit">Edit</string>
+    <string name="btnDelete">Delete</string>
+    <string name="searchView">Search</string>
+    <string name="pokeUpdate">Update</string>
 </resources>
