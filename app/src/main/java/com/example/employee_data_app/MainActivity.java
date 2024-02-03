@@ -10,6 +10,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -105,11 +107,32 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void logout(View view) {
-        FirebaseAuth.getInstance().signOut();
-
-        startActivity(new Intent(getApplicationContext(),Login.class));
-        finish();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        Log.d("MainActivity", "onCreateOptionsMenu called");
+        getMenuInflater().inflate(R.menu.common_menu, menu);
+        return true;
     }
 
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.menu_refresh){
+            startActivity(getIntent());
+            finish();
+            overridePendingTransition(0,0);
+        } else if (id ==R.id.menu_logout){
+            FirebaseAuth.getInstance().signOut();
+            Toast.makeText(this, "Logged Out", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivity.this, Login.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+        } else {
+            Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
+
+
