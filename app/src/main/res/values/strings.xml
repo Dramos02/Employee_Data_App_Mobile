@@ -8,7 +8,13 @@
     <string name="btnSaveRec">Save</string>
     <string name="btnCancelRect">Cancel</string>
     <string name="btnEdit">Edit</string>
-    <string name="btnDelete">Delete</string>
+    <string name="btnDelete">Terminate</string>
+    <string name="btnChangeProfile">Change Profile</string>
     <string name="searchView">Search</string>
     <string name="pokeUpdate">Update</string>
+    <string name="editProfile">Edit your Profile</string>
+    <string name="fullname">Employee\'s Full Name</string>
+    <string name="email">Employee\'s Email</string>
+    <string name="number">Employee\'s Mobile Number</string>
+    <string name="savechanges">Save Changes</string>
 </resources>

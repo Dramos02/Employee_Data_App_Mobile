@@ -121,7 +121,8 @@ public class Login extends AppCompatActivity {
                             progressBar.setVisibility(View.GONE);
                         }
                     } else {
-                        Toast.makeText(Login.this, "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Invalid Username or Password", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(Login.this, "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         progressBar.setVisibility(View.GONE);
                     }
                 });
