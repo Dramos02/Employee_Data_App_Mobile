@@ -71,9 +71,12 @@ public class Register extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
 
         ImageView imageViewShowHidePwd = findViewById(R.id.imageView_show_hide_pwd);
-        ImageView imageViewShowHideConfirmPwd = findViewById(R.id.imageView_show_hide_confirm_pwd);
         imageViewShowHidePwd.setImageResource(R.drawable.ic_hide_pwd);
+        imageViewShowHidePwd.setOnClickListener(v -> togglePasswordVisibility(mPassword, imageViewShowHidePwd));
+
+        ImageView imageViewShowHideConfirmPwd = findViewById(R.id.imageView_show_hide_confirm_pwd);
         imageViewShowHideConfirmPwd.setImageResource(R.drawable.ic_hide_pwd);
+        imageViewShowHideConfirmPwd.setOnClickListener(v -> togglePasswordVisibility(mConfirmPwd, imageViewShowHideConfirmPwd));
     }
 
     // Click listeners
